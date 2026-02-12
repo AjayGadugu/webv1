@@ -168,15 +168,6 @@ if (newsletterForm) {
     });
 }
 
-// Parallax effect for hero section
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-    }
-});
-
 // Add active class to current nav item based on scroll position
 window.addEventListener('scroll', () => {
     const sections = document.querySelectorAll('section[id]');
@@ -205,4 +196,54 @@ window.addEventListener('load', () => {
         document.body.style.transition = 'opacity 0.5s ease';
         document.body.style.opacity = '1';
     }, 100);
+    
+    // Typing effect for hero subtitle
+    const subtitle = document.querySelector('.hero-subtitle');
+    const text = subtitle.textContent;
+    subtitle.textContent = '';
+    subtitle.style.opacity = '1';
+    
+    let i = 0;
+    const typeWriter = () => {
+        if (i < text.length) {
+            subtitle.textContent += text.charAt(i);
+            i++;
+            setTimeout(typeWriter, 50);
+        }
+    };
+    
+    setTimeout(typeWriter, 1000);
 });
+
+// Parallax effect for multiple elements
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    
+    // Hero parallax
+    const hero = document.querySelector('.hero');
+    if (hero) {
+        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+    }
+    
+    // Service cards parallax
+    const serviceCards = document.querySelectorAll('.service-card');
+    serviceCards.forEach((card, index) => {
+        const speed = 0.05 + (index * 0.01);
+        const yPos = -(scrolled * speed);
+        card.style.transform = `translateY(${yPos}px)`;
+    });
+});
+
+// Mouse move effect on hero
+const hero = document.querySelector('.hero');
+if (hero) {
+    hero.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
+        
+        const moveX = (mouseX - 0.5) * 30;
+        const moveY = (mouseY - 0.5) * 30;
+        
+        hero.style.backgroundPosition = `${50 + moveX}% ${50 + moveY}%`;
+    });
+}
